@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Lichtpult Autorisierung</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin-top: 10%; background-color: #f4f4f9; color: #333; }
+        .container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; }
+        h2 { color: #0066cc; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #0066cc; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="status">Sicherheitsschlüssel wird verifiziert...</h2>
+        <div class="spinner" id="loader"></div>
+        <p id="subtext">Bitte warten. Du wirst sofort an das Lichtpult weitergeleitet.</p>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        if(code) {
+            setTimeout(() => {
+                // Leitet den Code an dein lokales Python-Skript weiter!
+                window.location.href = "http://127.0.0.1:8080/?code=" + code;
+            }, 1000); 
+        } else {
+            document.getElementById("status").innerHTML = "<span style='color:red;'>Fehler!</span>";
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("subtext").innerHTML = "Kein Sicherheitscode von Samsung erhalten.";
+        }
+    </script>
+</body>
+</html>
